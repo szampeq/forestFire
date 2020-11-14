@@ -19,6 +19,7 @@ import com.krzysztgac.forestfire.tools.Button;
 public class Main extends JFrame {
 
     private final JPanel buttonPanel;
+    private final JPanel fireButtonPanel;
     static BinaryMapLoader bml;
     static JForestPanel jForestPanel;
     static Map map;
@@ -31,9 +32,13 @@ public class Main extends JFrame {
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
         buttonPanel = new JPanel();
+        fireButtonPanel = new JPanel();
         mainPanel.add(BorderLayout.EAST, buttonPanel);
+        mainPanel.add(BorderLayout.SOUTH, fireButtonPanel);
         buttonPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE));
         buttonPanel.setBackground(Color.WHITE);
+        fireButtonPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE));
+        fireButtonPanel.setBackground(Color.WHITE);
 
         bml = new BinaryMapLoader();
         jForestPanel = new JForestPanel(bml);
@@ -45,7 +50,7 @@ public class Main extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(mainPanel);
 
-        this.setSize(new Dimension(1000, 520));
+        this.setSize(new Dimension(1010, 550));
         this.setLocationRelativeTo(null);
 
     }
@@ -122,7 +127,11 @@ public class Main extends JFrame {
         buttonPanel.add(selectHumidityType);
 
         // Button Panel - Start a Fire
-        Button startButton = new Button("Start a Fire!", buttonPanel);
+        fireButtonPanel.setLayout(new FlowLayout());
+        Button startButton = new Button("Start/Stop Fire!", fireButtonPanel);
+        Button setFireButton = new Button("Set Random Fire", fireButtonPanel);
+        Button sendFireman = new Button("Send Fireman", fireButtonPanel);
+        Button sendHelicopter = new Button("Send Helicopter", fireButtonPanel);
     }
 
 }

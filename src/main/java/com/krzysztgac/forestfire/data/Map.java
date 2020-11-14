@@ -1,5 +1,8 @@
 package com.krzysztgac.forestfire.data;
 
+import com.krzysztgac.forestfire.forest.Cell;
+import com.krzysztgac.forestfire.forest.CellState;
+
 import java.awt.*;
 
 public class Map {
@@ -14,28 +17,28 @@ public class Map {
         this.height = bml.map.getHeight();
     }
 
-    public void createForest() {
+    public Cell[][] ImageToMatrix() {
+
+        Cell[][] forestMatrix = new Cell[width][height];
+        for (int i = 0; i < width; i++)
+            for (int j = 0; j < height; j++)
+                forestMatrix[i][j] = new Cell(CellState.None);
+
         for (int i = 0; i < width; i++){
             for (int j = 0; j < height; j++){
 
                 Color readColor = new Color(bml.map.getRGB(i, j));
                 int R = readColor.getRed();
-                int G;
-                int B;
 
                 if (R > 50) {
-                    R = 70;
-                    G = 220;
-                    B = 10;
+                    forestMatrix[i][j].setState(CellState.LeafyTree);
                 } else {
-                    R = 20;
-                    G = 120;
-                    B = 220;
+                    forestMatrix[i][j].setState(CellState.Lake);
                 }
 
-                int RGB = new Color(R, G, B).getRGB();
-                bml.map.setRGB(i, j, RGB);
             }
         }
+        return forestMatrix;
     }
+
 }

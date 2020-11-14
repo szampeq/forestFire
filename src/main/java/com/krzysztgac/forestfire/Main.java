@@ -14,6 +14,7 @@ import java.io.FileNotFoundException;
 import com.krzysztgac.forestfire.data.BinaryMapLoader;
 import com.krzysztgac.forestfire.data.JForestPanel;
 import com.krzysztgac.forestfire.data.Map;
+import com.krzysztgac.forestfire.forest.Forest;
 import com.krzysztgac.forestfire.tools.Button;
 
 public class Main extends JFrame {
@@ -22,15 +23,19 @@ public class Main extends JFrame {
     private final JPanel fireButtonPanel;
     static BinaryMapLoader bml;
     static JForestPanel jForestPanel;
+    static Forest forestData;
     static Map map;
 
     public Main(String title){
         super(title);
 
-        // =====================
+        // ===================== PROGRAM SETTINGS ==========
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
+
+        // ============= Button Panels =============
+
         buttonPanel = new JPanel();
         fireButtonPanel = new JPanel();
         mainPanel.add(BorderLayout.EAST, buttonPanel);
@@ -40,12 +45,12 @@ public class Main extends JFrame {
         fireButtonPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE));
         fireButtonPanel.setBackground(Color.WHITE);
 
+        // ============= Data =================
         bml = new BinaryMapLoader();
-        jForestPanel = new JForestPanel(bml);
+        forestData = new Forest();
+        jForestPanel = new JForestPanel(forestData);
         mainPanel.add(jForestPanel);
         forestFire();
-
-
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(mainPanel);
@@ -79,7 +84,8 @@ public class Main extends JFrame {
                 String patternPath = selectedFile.getAbsolutePath();
                     bml.loadImage(jForestPanel, patternPath);
                 map = new Map(bml);
-                map.createForest();
+                forestData.matrix = map.ImageToMatrix();
+
             }
         });
 
@@ -125,6 +131,10 @@ public class Main extends JFrame {
         String[] humidityTypes = {"Low Humidity", "Medium Humidity", "High Humidity"};
         JComboBox<String> selectHumidityType = new JComboBox<>(humidityTypes);
         buttonPanel.add(selectHumidityType);
+
+        // Update Data
+        Button updateButton = new Button("Update Data", buttonPanel);
+
 
         // Button Panel - Start a Fire
         fireButtonPanel.setLayout(new FlowLayout());

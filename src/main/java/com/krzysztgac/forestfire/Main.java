@@ -45,7 +45,7 @@ public class Main extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setContentPane(mainPanel);
 
-        this.setSize(new Dimension(740, 380));
+        this.setSize(new Dimension(1000, 520));
         this.setLocationRelativeTo(null);
 
     }
@@ -74,8 +74,25 @@ public class Main extends JFrame {
                 String patternPath = selectedFile.getAbsolutePath();
                     bml.loadImage(jForestPanel, patternPath);
                 map = new Map(bml);
+                map.createForest();
             }
         });
+
+        // Button Panel - Forest type
+        JLabel forestTypeLabel = new JLabel("Select forest type:");
+        buttonPanel.add(forestTypeLabel);
+
+        // Button Panel - Select Season
+        JLabel seasonLabel = new JLabel("Select season:");
+        buttonPanel.add(seasonLabel);
+
+        // Button Panel - Select Wind Force & Direction
+        JLabel windLabel = new JLabel("Wind Force & Direction:");
+        buttonPanel.add(windLabel);
+
+        // Button Panel - Select Humidity
+        JLabel humidityLabel = new JLabel("Humidity: ");
+        buttonPanel.add(humidityLabel);
     }
 
 }

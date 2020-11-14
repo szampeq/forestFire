@@ -11,7 +11,6 @@ public class BinaryMapLoader {
     public void loadImage(JForestPanel forestPanel, String path){
         try {
             map = ImageIO.read(new File(path));
-            System.out.println("Mapa wczytana");
         } catch (IOException f) {
             f.printStackTrace();
         }

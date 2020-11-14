@@ -1,5 +1,7 @@
 package com.krzysztgac.forestfire.forest;
 
+import com.krzysztgac.forestfire.states.CellState;
+
 public class Cell {
 
     CellState state;

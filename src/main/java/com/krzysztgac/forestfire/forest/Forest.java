@@ -1,20 +1,22 @@
 package com.krzysztgac.forestfire.forest;
 
+import com.krzysztgac.forestfire.states.*;
+
 public class Forest {
     public Cell[][] matrix;
-    int humidity;
     double spreadingProbability;
+
+    ForestState forestState;
+    DensityState densityState;
+    SeasonState seasonState;
+    WindState windState;
+    WindForceState windForceState;
+    RainfallState rainfallState;
+    HumidityState humidityState;
 
     public Forest() {
     }
 
-    public int getHumidity() {
-        return humidity;
-    }
-
-    public void setHumidity(int humidity) {
-        this.humidity = humidity;
-    }
 
     public double getSpreadingProbability() {
         return spreadingProbability;
@@ -24,7 +26,7 @@ public class Forest {
         this.spreadingProbability = spreadingProbability;
     }
 
-    public void updateForest() {
+    public void setupForest() {
 
     }
 

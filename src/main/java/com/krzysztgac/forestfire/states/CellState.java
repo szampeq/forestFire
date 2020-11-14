@@ -1,4 +1,4 @@
-package com.krzysztgac.forestfire.forest;
+package com.krzysztgac.forestfire.states;
 
 public enum CellState {
     None,

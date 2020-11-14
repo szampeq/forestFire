@@ -15,6 +15,7 @@ import com.krzysztgac.forestfire.data.BinaryMapLoader;
 import com.krzysztgac.forestfire.data.JForestPanel;
 import com.krzysztgac.forestfire.data.Map;
 import com.krzysztgac.forestfire.forest.Forest;
+import com.krzysztgac.forestfire.states.*;
 import com.krzysztgac.forestfire.tools.Button;
 
 public class Main extends JFrame {
@@ -68,7 +69,7 @@ public class Main extends JFrame {
 
     public void forestFire(){
         // ButtonPanel settings
-        buttonPanel.setLayout(new GridLayout(14, 1));
+        buttonPanel.setLayout(new GridLayout(16, 1));
 
         // ButtonPanel - MapLoadLabel and MapLoader
         JLabel mapLabel = new JLabel("Load forest map:");
@@ -93,44 +94,52 @@ public class Main extends JFrame {
         JLabel forestTypeLabel = new JLabel("Select forest type:");
         buttonPanel.add(forestTypeLabel);
 
-        String[] forestTypes = {"Coniferous", "Deciduous", "Mixed"};
-        JComboBox<String> selectForestType = new JComboBox<>(forestTypes);
-        buttonPanel.add(selectForestType);
+        JComboBox<ForestState> forestType = new JComboBox<>();
+        forestType.setModel(new DefaultComboBoxModel<>(ForestState.values()));
+        buttonPanel.add(forestType);
+
+        // Forest density
+        JLabel forestDensityLabel = new JLabel("Forest density:");
+        buttonPanel.add(forestDensityLabel);
+
+        JComboBox<DensityState> densityType = new JComboBox<>();
+        densityType.setModel(new DefaultComboBoxModel<>(DensityState.values()));
+        buttonPanel.add(densityType);
 
         // Button Panel - Select Season
         JLabel seasonLabel = new JLabel("Select season:");
         buttonPanel.add(seasonLabel);
 
-        String[] seasonTypes = {"Spring", "Summer", "Autumn", "Winter"};
-        JComboBox<String> selectSeasonType = new JComboBox<>(seasonTypes);
-        buttonPanel.add(selectSeasonType);
+        JComboBox<SeasonState> seasonType = new JComboBox<>();
+        seasonType.setModel(new DefaultComboBoxModel<>(SeasonState.values()));
+        buttonPanel.add(seasonType);
 
         // Button Panel - Select Wind Force & Direction
         JLabel windLabel = new JLabel("Wind Force & Direction:");
         buttonPanel.add(windLabel);
 
-        String[] windTypes = {"North-West", "North", "North-East", "East", "South-East", "South", "West-South", "West"};
-        JComboBox<String> selectWindType = new JComboBox<>(windTypes);
-        buttonPanel.add(selectWindType);
+        JComboBox<WindState> windType = new JComboBox<>();
+        windType.setModel(new DefaultComboBoxModel<>(WindState.values()));
+        buttonPanel.add(windType);
 
-        String[] windForce = {"Windless", "Gentle Wind", "Medium Wind", "Strong Wind"};
-        JComboBox<String> selectWindForce = new JComboBox<>(windForce);
-        buttonPanel.add(selectWindForce);
+        JComboBox<WindForceState> windForce = new JComboBox<>();
+        windForce.setModel(new DefaultComboBoxModel<>(WindForceState.values()));
+        buttonPanel.add(windForce);
 
         // Button Panel - Select Rainfall and Humidity
         JLabel rainfallLabel = new JLabel("Rainfall: ");
         buttonPanel.add(rainfallLabel);
 
-        String[] rainfallTypes = {"No Rain", "Drizzle", "Medium Rain", "Heavy Rain"};
-        JComboBox<String> selectRainfallType = new JComboBox<>(rainfallTypes);
-        buttonPanel.add(selectRainfallType);
+        JComboBox<RainfallState> rainfallType = new JComboBox<>();
+        rainfallType.setModel(new DefaultComboBoxModel<>(RainfallState.values()));
+        buttonPanel.add(rainfallType);
 
         JLabel humidityLabel = new JLabel("Humidity: ");
         buttonPanel.add(humidityLabel);
 
-        String[] humidityTypes = {"Low Humidity", "Medium Humidity", "High Humidity"};
-        JComboBox<String> selectHumidityType = new JComboBox<>(humidityTypes);
-        buttonPanel.add(selectHumidityType);
+        JComboBox<HumidityState> humidityType = new JComboBox<>();
+        humidityType.setModel(new DefaultComboBoxModel<>(HumidityState.values()));
+        buttonPanel.add(humidityType);
 
         // Update Data
         Button updateButton = new Button("Update Data", buttonPanel);

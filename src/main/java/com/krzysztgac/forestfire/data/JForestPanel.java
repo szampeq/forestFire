@@ -1,6 +1,6 @@
 package com.krzysztgac.forestfire.data;
 
-import com.krzysztgac.forestfire.forest.CellState;
+import com.krzysztgac.forestfire.states.CellState;
 import com.krzysztgac.forestfire.forest.Forest;
 
 import javax.swing.*;

@@ -1,7 +1,7 @@
 package com.krzysztgac.forestfire.data;
 
 import com.krzysztgac.forestfire.forest.Cell;
-import com.krzysztgac.forestfire.forest.CellState;
+import com.krzysztgac.forestfire.states.CellState;
 
 import java.awt.*;
 
@@ -31,7 +31,7 @@ public class Map {
                 int R = readColor.getRed();
 
                 if (R > 50) {
-                    forestMatrix[i][j].setState(CellState.LeafyTree);
+                    forestMatrix[i][j].setState(CellState.Grass);
                 } else {
                     forestMatrix[i][j].setState(CellState.Lake);
                 }

@@ -58,7 +58,7 @@ public class Main extends JFrame {
 
     public void forestFire(){
         // ButtonPanel settings
-        buttonPanel.setLayout(new GridLayout(10, 1));
+        buttonPanel.setLayout(new GridLayout(14, 1));
 
         // ButtonPanel - MapLoadLabel and MapLoader
         JLabel mapLabel = new JLabel("Load forest map:");
@@ -82,17 +82,47 @@ public class Main extends JFrame {
         JLabel forestTypeLabel = new JLabel("Select forest type:");
         buttonPanel.add(forestTypeLabel);
 
+        String[] forestTypes = {"Coniferous", "Deciduous", "Mixed"};
+        JComboBox<String> selectForestType = new JComboBox<>(forestTypes);
+        buttonPanel.add(selectForestType);
+
         // Button Panel - Select Season
         JLabel seasonLabel = new JLabel("Select season:");
         buttonPanel.add(seasonLabel);
+
+        String[] seasonTypes = {"Spring", "Summer", "Autumn", "Winter"};
+        JComboBox<String> selectSeasonType = new JComboBox<>(seasonTypes);
+        buttonPanel.add(selectSeasonType);
 
         // Button Panel - Select Wind Force & Direction
         JLabel windLabel = new JLabel("Wind Force & Direction:");
         buttonPanel.add(windLabel);
 
-        // Button Panel - Select Humidity
+        String[] windTypes = {"North-West", "North", "North-East", "East", "South-East", "South", "West-South", "West"};
+        JComboBox<String> selectWindType = new JComboBox<>(windTypes);
+        buttonPanel.add(selectWindType);
+
+        String[] windForce = {"Windless", "Gentle Wind", "Medium Wind", "Strong Wind"};
+        JComboBox<String> selectWindForce = new JComboBox<>(windForce);
+        buttonPanel.add(selectWindForce);
+
+        // Button Panel - Select Rainfall and Humidity
+        JLabel rainfallLabel = new JLabel("Rainfall: ");
+        buttonPanel.add(rainfallLabel);
+
+        String[] rainfallTypes = {"No Rain", "Drizzle", "Medium Rain", "Heavy Rain"};
+        JComboBox<String> selectRainfallType = new JComboBox<>(rainfallTypes);
+        buttonPanel.add(selectRainfallType);
+
         JLabel humidityLabel = new JLabel("Humidity: ");
         buttonPanel.add(humidityLabel);
+
+        String[] humidityTypes = {"Low Humidity", "Medium Humidity", "High Humidity"};
+        JComboBox<String> selectHumidityType = new JComboBox<>(humidityTypes);
+        buttonPanel.add(selectHumidityType);
+
+        // Button Panel - Start a Fire
+        Button startButton = new Button("Start a Fire!", buttonPanel);
     }
 
 }

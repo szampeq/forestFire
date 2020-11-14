@@ -4,8 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 
 public class Button extends JButton {
-    JButton button;
-    String text;
+    public JButton button;
+    public String text;
 
     public Button(String text, JPanel buttonPanel) {
         this.text = text;

@@ -17,7 +17,6 @@ public class Forest {
     public Forest() {
     }
 
-
     public double getSpreadingProbability() {
         return spreadingProbability;
     }
@@ -26,8 +25,18 @@ public class Forest {
         this.spreadingProbability = spreadingProbability;
     }
 
-    public void setupForest() {
+    public void setupForest(ForestState forestState, DensityState densityState, SeasonState seasonState,
+    WindState windState, WindForceState windForceState, RainfallState rainfallState, HumidityState humidityState) {
+
+        this.forestState = forestState;
+        this.densityState = densityState;
+        this.seasonState = seasonState;
+        this.windState = windState;
+        this.windForceState = windForceState;
+        this.rainfallState = rainfallState;
+        this.humidityState = humidityState;
 
     }
+
 
 }

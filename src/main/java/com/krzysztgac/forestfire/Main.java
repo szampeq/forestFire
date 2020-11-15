@@ -144,6 +144,7 @@ public class Main extends JFrame {
         // Update Data
         Button updateButton = new Button("Update Data", buttonPanel);
         updateButton.button.addActionListener(e -> {
+            forestData.deforestation();
             forestData.setupForest((ForestState)forestType.getSelectedItem(), (DensityState)densityType.getSelectedItem(),
                     (SeasonState)seasonType.getSelectedItem(), (WindState)windType.getSelectedItem(), (WindForceState)windForce.getSelectedItem(),
                     (RainfallState)rainfallType.getSelectedItem(), (HumidityState)humidityType.getSelectedItem());

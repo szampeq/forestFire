@@ -10,9 +10,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.krzysztgac.forestfire.data.BinaryMapLoader;
 import com.krzysztgac.forestfire.data.JForestPanel;
@@ -73,7 +75,7 @@ public class Main extends JFrame {
     public void forestFire(){
         // ButtonPanel settings
         buttonPanel.setLayout(new GridLayout(16, 1));
-
+        AtomicBoolean isBoardCreated = new AtomicBoolean(false);
         // ButtonPanel - MapLoadLabel and MapLoader
         JLabel mapLabel = new JLabel("Load forest map:");
         buttonPanel.add(mapLabel);
@@ -145,16 +147,19 @@ public class Main extends JFrame {
                 forestData.setupForest((ForestState)forestType.getSelectedItem(), (DensityState)densityType.getSelectedItem(),
                         (SeasonState)seasonType.getSelectedItem(), (WindState)windType.getSelectedItem(), (WindForceState)windForce.getSelectedItem(),
                         (RainfallState)rainfallType.getSelectedItem(), (HumidityState)humidityType.getSelectedItem());
+                isBoardCreated.set(true);
             }
         });
 
         // Update Data
         Button updateButton = new Button("Update Data", buttonPanel);
         updateButton.button.addActionListener(e -> {
-            forestData.deforestation();
-            forestData.setupForest((ForestState)forestType.getSelectedItem(), (DensityState)densityType.getSelectedItem(),
-                    (SeasonState)seasonType.getSelectedItem(), (WindState)windType.getSelectedItem(), (WindForceState)windForce.getSelectedItem(),
-                    (RainfallState)rainfallType.getSelectedItem(), (HumidityState)humidityType.getSelectedItem());
+            if (isBoardCreated.get()) {
+                forestData.deforestation();
+                forestData.setupForest((ForestState) forestType.getSelectedItem(), (DensityState) densityType.getSelectedItem(),
+                        (SeasonState) seasonType.getSelectedItem(), (WindState) windType.getSelectedItem(), (WindForceState) windForce.getSelectedItem(),
+                        (RainfallState) rainfallType.getSelectedItem(), (HumidityState) humidityType.getSelectedItem());
+            }
         });
 
         // Button Panel - Start a Fire
@@ -164,6 +169,26 @@ public class Main extends JFrame {
         Button sendFireman = new Button("Send Fireman", fireButtonPanel);
         Button sendHelicopter = new Button("Send Helicopter", fireButtonPanel);
 
+        AtomicBoolean isGameStarted = new AtomicBoolean(false);
+
+        startButton.button.addActionListener(e -> {
+            if (isBoardCreated.get()) {
+                isGameStarted.set(!isGameStarted.get());
+            }
+        });
+
+        // =============== THREAD TO RUN GAME ================
+
+        final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+        executorService.scheduleAtFixedRate(() -> {
+
+            if (isGameStarted.get()) {
+                forestData.cellNeighborhood();
+            }
+
+        }, 0, 100, TimeUnit.MILLISECONDS);
+
+        // ========================================================
 
         // ================== MOUSE LISTENERS ==================
 
@@ -177,8 +202,8 @@ public class Main extends JFrame {
                 int x = e.getX() - windowXCorrection;
                 int y = e.getY() - windowYCorrection;
 
-               // if (isBoardCreated.get())
-                forestData.setFire(x, y);
+                if (isBoardCreated.get())
+                    forestData.setFire(x, y);
             }
 
         });

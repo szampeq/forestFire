@@ -105,6 +105,38 @@ public class Forest {
                 if (!matrix[x+i][y+j].getState().equals(CellState.Lake))
                     matrix[x+i][y+j].setState(CellState.BurningTree);
             }
+    }
 
+    public void cellNeighborhood() {
+
+        Cell[][] newMatrix = new Cell[matrix.length][matrix[0].length];
+
+        for (int i = 0; i < matrix.length; i++)
+            for (int j = 0; j < matrix[0].length; j++) {
+
+                for (int m = -1; m <= 1; m++)
+                    for (int n = -1; n <= 1; n++) {
+
+                        int x = i + m;
+                        int y = j + n;
+
+                        if (x == i && y == j)
+                            continue;
+                        if (x < 0)
+                            x += matrix.length;
+                        if (y < 0)
+                            y += matrix[0].length;
+                        if (x > matrix.length - 1)
+                            x -= matrix.length;
+                        if (y > matrix[0].length - 1)
+                            y -= matrix[0].length;
+
+
+                    }
+
+
+            }
+
+        //matrix = newMatrix;
     }
 }

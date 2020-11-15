@@ -6,7 +6,8 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Forest {
     public Cell[][] matrix;
-    double spreadingProbability;
+    double spreadingFireFactor;
+    double burningTimeFactor;
 
     ForestState forestState;
     DensityState densityState;
@@ -23,12 +24,12 @@ public class Forest {
         return seasonState;
     }
 
-    public double getSpreadingProbability() {
-        return spreadingProbability;
+    public double getSpreadingFireFactor() {
+        return spreadingFireFactor;
     }
 
-    public void setSpreadingProbability(double spreadingProbability) {
-        this.spreadingProbability = spreadingProbability;
+    public void setSpreadingFireFactor(double spreadingFireFactor) {
+        this.spreadingFireFactor = spreadingFireFactor;
     }
 
     public void setupForest(ForestState forestState, DensityState densityState, SeasonState seasonState,

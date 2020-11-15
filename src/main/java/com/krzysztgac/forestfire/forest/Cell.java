@@ -6,6 +6,7 @@ public class Cell {
 
     CellState state;
     double inflammability;
+    int burningTime = -1;
 
     public Cell(CellState state) {
         this.state = state;
@@ -35,5 +36,20 @@ public class Cell {
             this.inflammability = 0;
         else
             this.inflammability = 0;
+    }
+
+    void isBurned() {
+        if (burningTime > 0)
+            burningTime--;
+        else if (burningTime == 0)
+            state = CellState.BurnedTree;
+    }
+
+    public void setBurningTime(int burningTime) {
+        this.burningTime = burningTime;
+    }
+
+    public int getBurningTime() {
+        return burningTime;
     }
 }

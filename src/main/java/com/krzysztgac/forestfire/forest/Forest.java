@@ -102,8 +102,10 @@ public class Forest {
                 if (x + i < 0 || y + i < 0) continue;
                 if (x + i > matrix.length - 1 || y + j > matrix[0].length - 1) continue;
 
-                if (!matrix[x+i][y+j].getState().equals(CellState.Lake))
-                    matrix[x+i][y+j].setState(CellState.BurningTree);
+                if (!matrix[x+i][y+j].getState().equals(CellState.Lake)) {
+                    matrix[x + i][y + j].setState(CellState.BurningTree);
+                    matrix[x + i][y + j].setBurningTime(10);
+                }
             }
     }
 
@@ -112,8 +114,10 @@ public class Forest {
         Cell[][] newCells = new Cell[matrix.length][matrix[0].length];
 
         for (int i = 0; i < matrix.length; i++)
-            for (int j = 0; j < matrix[0].length; j++)
+            for (int j = 0; j < matrix[0].length; j++) {
                 newCells[i][j] = new Cell(CellState.None);
+                newCells[i][j].setBurningTime(matrix[i][j].getBurningTime() - 1);
+            }
 
 
         for (int i = 0; i < matrix.length; i++)
@@ -135,10 +139,14 @@ public class Forest {
                             burningNeighbors++;
                     }
 
-                if (burningNeighbors > 0 && !matrix[i][j].getState().equals(CellState.Lake))
+                if (burningNeighbors > 0 && !matrix[i][j].getState().equals(CellState.Lake) &&
+                        !matrix[i][j].getState().equals(CellState.BurnedTree) && !matrix[i][j].getState().equals(CellState.BurningTree)) {
                     newCells[i][j].setState(CellState.BurningTree);
+                    newCells[i][j].setBurningTime(newCells[i][j].getBurningTime()+10);
+                }
                 else
                     newCells[i][j] = matrix[i][j];
+                newCells[i][j].isBurned();
             }
         matrix = newCells;
     }

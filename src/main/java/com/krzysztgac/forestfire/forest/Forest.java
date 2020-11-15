@@ -97,7 +97,7 @@ public class Forest {
     public void setFire(int x, int y) {
 
         for (int i = -3; i < 3; i++)
-            for (int j = 3; j > -3; j--) {
+            for (int j = -3; j < 3; j++) {
 
                 if (x + i < 0 || y + i < 0) continue;
                 if (x + i > matrix.length - 1 || y + j > matrix[0].length - 1) continue;
@@ -109,10 +109,17 @@ public class Forest {
 
     public void cellNeighborhood() {
 
-        Cell[][] newMatrix = new Cell[matrix.length][matrix[0].length];
+        Cell[][] newCells = new Cell[matrix.length][matrix[0].length];
+
+        for (int i = 0; i < matrix.length; i++)
+            for (int j = 0; j < matrix[0].length; j++)
+                newCells[i][j] = new Cell(CellState.None);
+
 
         for (int i = 0; i < matrix.length; i++)
             for (int j = 0; j < matrix[0].length; j++) {
+
+                int burningNeighbors = 0;
 
                 for (int m = -1; m <= 1; m++)
                     for (int n = -1; n <= 1; n++) {
@@ -120,23 +127,19 @@ public class Forest {
                         int x = i + m;
                         int y = j + n;
 
-                        if (x == i && y == j)
-                            continue;
-                        if (x < 0)
-                            x += matrix.length;
-                        if (y < 0)
-                            y += matrix[0].length;
-                        if (x > matrix.length - 1)
-                            x -= matrix.length;
-                        if (y > matrix[0].length - 1)
-                            y -= matrix[0].length;
+                        if (x == i && y == j) continue;
+                        if (x < 0 || y < 0) continue;
+                        if (x > matrix.length - 1 || y > matrix[0].length - 1) continue;
 
-
+                        if (matrix[x][y].getState().equals(CellState.BurningTree))
+                            burningNeighbors++;
                     }
 
-
+                if (burningNeighbors > 0 && !matrix[i][j].getState().equals(CellState.Lake))
+                    newCells[i][j].setState(CellState.BurningTree);
+                else
+                    newCells[i][j] = matrix[i][j];
             }
-
-        //matrix = newMatrix;
+        matrix = newCells;
     }
 }

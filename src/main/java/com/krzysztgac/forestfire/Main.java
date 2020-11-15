@@ -181,14 +181,11 @@ public class Main extends JFrame {
 
         final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
         executorService.scheduleAtFixedRate(() -> {
-
             if (isGameStarted.get()) {
                 forestData.cellNeighborhood();
             }
-
         }, 0, 100, TimeUnit.MILLISECONDS);
 
-        // ========================================================
 
         // ================== MOUSE LISTENERS ==================
 

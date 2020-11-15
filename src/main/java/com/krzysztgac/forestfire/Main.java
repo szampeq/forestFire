@@ -8,6 +8,9 @@ package com.krzysztgac.forestfire;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.io.File;
 import java.io.FileNotFoundException;
 
@@ -78,17 +81,6 @@ public class Main extends JFrame {
         Button mapLoadButton = new Button("Load Forest", buttonPanel);
         JFileChooser pattern = new JFileChooser(new File("src/main/resources/binaryMaps/"));
 
-        mapLoadButton.button.addActionListener(e -> {
-            int result = pattern.showOpenDialog(this);
-            if (result == JFileChooser.APPROVE_OPTION) {
-                File selectedFile = pattern.getSelectedFile();
-                String patternPath = selectedFile.getAbsolutePath();
-                    bml.loadImage(jForestPanel, patternPath);
-                map = new Map(bml);
-                forestData.matrix = map.ImageToMatrix();
-
-            }
-        });
 
         // Button Panel - Forest type
         JLabel forestTypeLabel = new JLabel("Select forest type:");
@@ -141,6 +133,21 @@ public class Main extends JFrame {
         humidityType.setModel(new DefaultComboBoxModel<>(HumidityState.values()));
         buttonPanel.add(humidityType);
 
+        // Create Data
+        mapLoadButton.button.addActionListener(e -> {
+            int result = pattern.showOpenDialog(this);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = pattern.getSelectedFile();
+                String patternPath = selectedFile.getAbsolutePath();
+                bml.loadImage(jForestPanel, patternPath);
+                map = new Map(bml);
+                forestData.matrix = map.ImageToMatrix();
+                forestData.setupForest((ForestState)forestType.getSelectedItem(), (DensityState)densityType.getSelectedItem(),
+                        (SeasonState)seasonType.getSelectedItem(), (WindState)windType.getSelectedItem(), (WindForceState)windForce.getSelectedItem(),
+                        (RainfallState)rainfallType.getSelectedItem(), (HumidityState)humidityType.getSelectedItem());
+            }
+        });
+
         // Update Data
         Button updateButton = new Button("Update Data", buttonPanel);
         updateButton.button.addActionListener(e -> {
@@ -156,6 +163,28 @@ public class Main extends JFrame {
         Button setFireButton = new Button("Set Random Fire", fireButtonPanel);
         Button sendFireman = new Button("Send Fireman", fireButtonPanel);
         Button sendHelicopter = new Button("Send Helicopter", fireButtonPanel);
+
+
+        // ================== MOUSE LISTENERS ==================
+
+        final int windowXCorrection = 7;
+        final int windowYCorrection = 30;
+
+        addMouseListener(new MouseAdapter() {
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+                int x = e.getX() - windowXCorrection;
+                int y = e.getY() - windowYCorrection;
+
+               // if (isBoardCreated.get())
+                forestData.setFire(x, y);
+            }
+
+        });
+
+        // =============================================
+
     }
 
 }

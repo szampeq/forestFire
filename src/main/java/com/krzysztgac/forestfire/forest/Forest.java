@@ -94,4 +94,17 @@ public class Forest {
                     cells[j].setState(CellState.Grass);
     }
 
+    public void setFire(int x, int y) {
+
+        for (int i = -3; i < 3; i++)
+            for (int j = 3; j > -3; j--) {
+
+                if (x + i < 0 || y + i < 0) continue;
+                if (x + i > matrix.length - 1 || y + j > matrix[0].length - 1) continue;
+
+                if (!matrix[x+i][y+j].getState().equals(CellState.Lake))
+                    matrix[x+i][y+j].setState(CellState.BurningTree);
+            }
+
+    }
 }

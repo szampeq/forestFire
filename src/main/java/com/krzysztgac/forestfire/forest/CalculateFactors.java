@@ -6,11 +6,11 @@ public abstract class CalculateFactors {
 
     private static final int NUMBER_OF_STATES = 5;
 
-    private static final double VERY_LOW_TRANSITION = 0.15;
-    private static final double LOW_TRANSITION = 0.30;
+    private static final double VERY_LOW_TRANSITION = 0.10;
+    private static final double LOW_TRANSITION = 0.20;
     private static final double MEDIUM_TRANSITION = 0.50;
-    private static final double HIGH_TRANSISTION = 0.70;
-    private static final double VERY_HIGH_TRANSITION = 0.85;
+    private static final double HIGH_TRANSISTION = 0.80;
+    private static final double VERY_HIGH_TRANSITION = 1.0;
 
     private static final int VERY_SLOW_SPREAD = 5;
     private static final int SLOW_SPREAD = 2;

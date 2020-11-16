@@ -4,53 +4,53 @@ import com.krzysztgac.forestfire.states.WindState;
 
 public abstract class WindMatrix {
 
-    int[][] NorthWest = {
-            {1, 1, 0},
+    private static final int[][] NorthWest = {
             {1, 0, 0},
-            {0, 0, 0}
-    };
-    int[][] North = {
-            {1, 1, 1},
             {0, 0, 0},
             {0, 0, 0}
     };
-    int[][] NorthEast = {
-            {0, 1, 1},
+    private static final int[][] North = {
+            {0, 1, 0},
+            {0, 0, 0},
+            {0, 0, 0}
+    };
+    private static final int[][] NorthEast = {
+            {0, 0, 1},
+            {0, 0, 0},
+            {0, 0, 0}
+    };
+    private static final int[][] East = {
+            {0, 0, 0},
             {0, 0, 1},
             {0, 0, 0}
     };
-    int[][] East = {
-            {0, 0, 1},
-            {0, 0, 1},
+    private static final int[][] SouthEast = {
+            {0, 0, 0},
+            {0, 0, 0},
             {0, 0, 1}
     };
-    int[][] SouthEast = {
+    private static final int[][] South = {
             {0, 0, 0},
-            {0, 0, 1},
-            {0, 1, 1}
+            {0, 0, 0},
+            {0, 1, 0}
     };
-    int[][] South = {
+    private static final int[][] SouthWest = {
             {0, 0, 0},
             {0, 0, 0},
-            {1, 1, 1}
-    };
-    int[][] SouthWest = {
-            {0, 0, 0},
-            {1, 0, 0},
-            {1, 1, 0}
-    };
-    int[][] West = {
-            {1, 0, 0},
-            {1, 0, 0},
             {1, 0, 0}
     };
-    int[][] Windless = {
+    private static final int[][] West = {
+            {0, 0, 0},
+            {1, 0, 0},
+            {0, 0, 0}
+    };
+    private static final int[][] Windless = {
             {0, 0, 0},
             {0, 0, 0},
             {0, 0, 0}
     };
 
-    int[][] windMatrix(WindState windState) {
+    static int[][] windMatrix(WindState windState) {
         switch (windState) {
             case NorthWest:
                 return NorthWest;

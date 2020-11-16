@@ -6,11 +6,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import static com.krzysztgac.forestfire.forest.CalculateFactors.calculateBurningTimeFactor;
 import static com.krzysztgac.forestfire.forest.CalculateFactors.calculateSpreadingFireFactor;
+import static com.krzysztgac.forestfire.forest.WindMatrix.windMatrix;
 
 public class Forest {
     public Cell[][] matrix;
     double spreadingFireFactor;
     double burningTimeFactor;
+    int[][] windDirection;
 
     ForestState forestState;
     DensityState densityState;
@@ -45,6 +47,8 @@ public class Forest {
 
         burningTimeFactor = calculateBurningTimeFactor(densityState, seasonState, windForceState,
                 rainfallState, humidityState);
+
+        windDirection = windMatrix(windState);
 
         System.out.println(spreadingFireFactor);
         System.out.println(burningTimeFactor);
@@ -144,6 +148,7 @@ public class Forest {
 
                         if (matrix[x][y].getState().equals(CellState.BurningTree))
                             burningNeighbors++;
+
                     }
 
                 // checking neighbors
@@ -160,18 +165,46 @@ public class Forest {
                 } else
                     newCells[i][j] = matrix[i][j];
 
-                // miejsce na wiatr ??????
-
                 newCells[i][j].isBurned();
             }
+        newCells = windEffect(newCells);
         matrix = newCells;
     }
 
 
 
-    void windEffect() {
+    Cell[][] windEffect(Cell[][] cells) {
 
+        Cell[][] newCells = new Cell[cells.length][cells[0].length];
+        for (int i = 0; i < newCells.length; i++)
+            for (int j = 0; j < newCells[0].length; j++) {
+                newCells[i][j] = new Cell(CellState.None);
+                newCells[i][j].setBurningTime(cells[i][j].getBurningTime());
+            }
+
+        int M = 0, N = 0;
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++)
+                if(windDirection[i][j] == 1) {
+                    M = i - 1;
+                    N = j - 1;
+                }
+
+        for (int i = 0; i < cells.length; i++)
+            for (int j = 0; j < cells[0].length; j++) {
+
+                int x = i + N;
+                int y = j + M;
+
+                if (x == i && y == j) continue;
+                if (x < 0 || y < 0) continue;
+                if (x > matrix.length - 1 || y > matrix[0].length - 1) continue;
+
+                if (cells[i][j].getState().equals(CellState.BurningTree)) {
+                    newCells[x][y].setState(CellState.BurningTree);
+                } else
+                    newCells[x][y] = cells[x][y];
+            }
+        return newCells;
     }
-
-
 }

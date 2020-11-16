@@ -2,8 +2,6 @@ package com.krzysztgac.forestfire.forest;
 
 import com.krzysztgac.forestfire.states.*;
 
-
-
 public abstract class CalculateFactors {
 
     private static final int NUMBER_OF_STATES = 7;
@@ -44,82 +42,76 @@ public abstract class CalculateFactors {
         // DENSINITY STATE
         switch (densityState) {
             case Poorly:
-                spreadingFireFactor = VERY_LOW_TRANSITION;
+                spreadingFireFactor += VERY_LOW_TRANSITION;
                 break;
             case Medium:
-                spreadingFireFactor = MEDIUM_TRANSITION;
+                spreadingFireFactor += MEDIUM_TRANSITION;
                 break;
             case Strongly:
-                spreadingFireFactor = VERY_HIGH_TRANSITION;
+                spreadingFireFactor += VERY_HIGH_TRANSITION;
                 break;
             default:
-                spreadingFireFactor = 0.0;
+                spreadingFireFactor += 0.0;
                 break;
         }
     // SEASON STATE
         switch (seasonState) {
             case Spring:
-                spreadingFireFactor = VERY_LOW_TRANSITION;
+                spreadingFireFactor += LOW_TRANSITION;
                 break;
             case Summer:
-                spreadingFireFactor = MEDIUM_TRANSITION;
+                spreadingFireFactor += HIGH_TRANSISTION;
                 break;
             case Autumn:
-                spreadingFireFactor = VERY_HIGH_TRANSITION;
+                spreadingFireFactor += VERY_HIGH_TRANSITION;
                 break;
             case Winter:
-                spreadingFireFactor = VERY_HIGH_TRANSITION;
+                spreadingFireFactor += VERY_LOW_TRANSITION;
                 break;
             default:
-                spreadingFireFactor = 0.0;
+                spreadingFireFactor += 0.0;
                 break;
         }
 // WIND FORCE STATE
         switch (windForceState) {
-            case Windless:
-                spreadingFireFactor = VERY_LOW_TRANSITION;
-                break;
             case GentleWind:
-                spreadingFireFactor = MEDIUM_TRANSITION;
+                spreadingFireFactor += LOW_TRANSITION;
                 break;
             case MediumWind:
-                spreadingFireFactor = VERY_HIGH_TRANSITION;
+                spreadingFireFactor += MEDIUM_TRANSITION;
                 break;
             case StrongWind:
-                spreadingFireFactor = VERY_HIGH_TRANSITION;
+                spreadingFireFactor += VERY_HIGH_TRANSITION;
                 break;
             default:
-                spreadingFireFactor = 0.0;
+                spreadingFireFactor += 0.0;
                 break;
         }
 // RAINFALL STATE
         switch (rainfallState) {
-            case Rainless:
-                spreadingFireFactor = VERY_LOW_TRANSITION;
-                break;
             case Drizzle:
-                spreadingFireFactor = MEDIUM_TRANSITION;
+                spreadingFireFactor += HIGH_TRANSISTION;
                 break;
             case MediumRain:
-                spreadingFireFactor = VERY_HIGH_TRANSITION;
+                spreadingFireFactor += MEDIUM_TRANSITION;
                 break;
             case HeavyRain:
-                spreadingFireFactor = VERY_HIGH_TRANSITION;
+                spreadingFireFactor += VERY_LOW_TRANSITION;
                 break;
             default:
-                spreadingFireFactor = 0.0;
+                spreadingFireFactor += 0.0;
                 break;
         }
     // HUMIDITY STATE
         switch (humidityState) {
             case LowHumidity:
-                spreadingFireFactor = VERY_LOW_TRANSITION;
+                spreadingFireFactor = VERY_HIGH_TRANSITION;
                 break;
             case MediumHumidity:
                 spreadingFireFactor = MEDIUM_TRANSITION;
                 break;
             case HighHumidity:
-                spreadingFireFactor = VERY_HIGH_TRANSITION;
+                spreadingFireFactor = VERY_LOW_TRANSITION;
                 break;
             default:
                 spreadingFireFactor = 0.0;

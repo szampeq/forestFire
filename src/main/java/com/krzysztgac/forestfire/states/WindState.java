@@ -7,6 +7,6 @@ public enum WindState {
     East,
     SouthEast,
     South,
-    WestSouth,
+    SouthWest,
     West
 }

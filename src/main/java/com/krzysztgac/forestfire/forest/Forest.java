@@ -160,9 +160,18 @@ public class Forest {
                 } else
                     newCells[i][j] = matrix[i][j];
 
+                // miejsce na wiatr ??????
+
                 newCells[i][j].isBurned();
             }
         matrix = newCells;
     }
+
+
+
+    void windEffect() {
+
+    }
+
 
 }

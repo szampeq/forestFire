@@ -5,8 +5,7 @@ import com.krzysztgac.forestfire.states.CellState;
 public class Cell {
 
     CellState state;
-    double inflammability;
-    double burningTime = 15.0;
+    double burningTime;
 
     public Cell(CellState state) {
         this.state = state;
@@ -18,30 +17,23 @@ public class Cell {
 
     public void setState(CellState state) {
         this.state = state;
-        setInflammability();
+        setInitialTime();
     }
 
-    public void setInflammability() {
-        if (state == CellState.Lake)
-            this.inflammability = 0;
-        else if (state == CellState.Grass)
-            this.inflammability = 0.4;
+    public void setInitialTime() {
+        if (state == CellState.Grass)
+            this.burningTime = 6;
         else if (state == CellState.LeafyTree)
-            this.inflammability = 0.5;
+            this.burningTime = 25;
         else if (state == CellState.ConiferTree)
-            this.inflammability = 0.8;
-        else if (state == CellState.BurningTree)
-            this.inflammability = 1;
-        else if (state == CellState.BurnedTree)
-            this.inflammability = 0;
-        else
-            this.inflammability = 0;
+            this.burningTime = 15;
     }
 
     void isBurned() {
-        if (burningTime > 0)
+        if (state.equals(CellState.BurningTree) && burningTime > 0) {
             burningTime--;
-        else if (burningTime == 0)
+        }
+        else if (state.equals(CellState.BurningTree) && burningTime <= 0)
             state = CellState.BurnedTree;
     }
 

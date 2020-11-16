@@ -40,10 +40,10 @@ public class Forest {
 
         plantTrees();
 
-        spreadingFireFactor = calculateSpreadingFireFactor(forestState, densityState, seasonState, windForceState,
+        spreadingFireFactor = calculateSpreadingFireFactor(densityState, seasonState, windForceState,
                 rainfallState, humidityState);
 
-        burningTimeFactor = calculateBurningTimeFactor(forestState, densityState, seasonState, windForceState,
+        burningTimeFactor = calculateBurningTimeFactor(densityState, seasonState, windForceState,
                 rainfallState, humidityState);
 
         System.out.println(spreadingFireFactor);
@@ -108,27 +108,27 @@ public class Forest {
 
                 if (!matrix[x+i][y+j].getState().equals(CellState.Lake)) {
                     matrix[x + i][y + j].setState(CellState.BurningTree);
-                    matrix[x + i][y + j].setBurningTime(burningTimeFactor);
+                    matrix[x + i][y + j].setBurningTime(15 + burningTimeFactor);
                 }
             }
     }
 
     public void cellNeighborhood() {
 
+
         Cell[][] newCells = new Cell[matrix.length][matrix[0].length];
-
-        for (int i = 0; i < matrix.length; i++)
-            for (int j = 0; j < matrix[0].length; j++) {
-                newCells[i][j] = new Cell(matrix[i][j].getState());
-                newCells[i][j].setBurningTime(matrix[i][j].getBurningTime()+burningTimeFactor);
+        for (int i = 0; i < newCells.length; i++)
+            for (int j = 0; j < newCells[0].length; j++) {
+                newCells[i][j] = new Cell(CellState.None);
+                newCells[i][j].setBurningTime(matrix[i][j].getBurningTime());
             }
-
 
         for (int i = 0; i < matrix.length; i++)
             for (int j = 0; j < matrix[0].length; j++) {
 
                 int burningNeighbors = 0;
 
+                // ======= neighbors loop =======
                 for (int m = -1; m <= 1; m++)
                     for (int n = -1; n <= 1; n++) {
 
@@ -142,6 +142,7 @@ public class Forest {
                         if (matrix[x][y].getState().equals(CellState.BurningTree))
                             burningNeighbors++;
                     }
+                // ========= end of neighbors loop ========
 
                 double chanceOfSpread;
                     if (burningNeighbors == 0)
@@ -153,16 +154,15 @@ public class Forest {
                     double x = ThreadLocalRandom.current().nextDouble(0, 1);
                     if (x < chanceOfSpread) {
                         newCells[i][j].setState(CellState.BurningTree);
-                        //newCells[i][j].setBurningTime(burningTimeFactor);
-                    }
-                }
-                else
+                        newCells[i][j].setBurningTime(newCells[i][j].burningTime += burningTimeFactor);
+                    } else
+                        newCells[i][j] = matrix[i][j];
+                } else
                     newCells[i][j] = matrix[i][j];
 
-
-                //newCells[i][j].isBurned();
-
+                newCells[i][j].isBurned();
             }
         matrix = newCells;
     }
+
 }

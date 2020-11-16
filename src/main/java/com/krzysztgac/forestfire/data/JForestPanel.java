@@ -48,7 +48,7 @@ public class JForestPanel extends JPanel {
                     else
                         g2.setColor(noneColor);
 
-                    g2.fillRect(i + 1, j + 1, 1, 1);
+                    g2.fillRect(i, j, 1, 1);
                 }
             }
             super.repaint();

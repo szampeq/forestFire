@@ -4,7 +4,7 @@ import com.krzysztgac.forestfire.states.*;
 
 public abstract class CalculateFactors {
 
-    private static final int NUMBER_OF_STATES = 6;
+    private static final int NUMBER_OF_STATES = 5;
 
     private static final double VERY_LOW_TRANSITION = 0.15;
     private static final double LOW_TRANSITION = 0.30;
@@ -19,26 +19,11 @@ public abstract class CalculateFactors {
     private static final int VERY_FAST_SPREAD = -5;
 
     static double calculateSpreadingFireFactor(
-            ForestState forestState, DensityState densityState, SeasonState seasonState,
+            DensityState densityState, SeasonState seasonState,
             WindForceState windForceState, RainfallState rainfallState, HumidityState humidityState) {
 
         double spreadingFireFactor = 0.0;
 
-        // FOREST STATE
-        switch (forestState) {
-            case Coniferous:
-                spreadingFireFactor += LOW_TRANSITION;
-                break;
-            case Deciduous:
-                spreadingFireFactor += HIGH_TRANSISTION;
-                break;
-            case Mixed:
-                spreadingFireFactor += MEDIUM_TRANSITION;
-                break;
-            default:
-                spreadingFireFactor += 0.0;
-                break;
-        }
         // DENSINITY STATE
         switch (densityState) {
             case Poorly:
@@ -122,26 +107,11 @@ public abstract class CalculateFactors {
     }
 
     static double calculateBurningTimeFactor(
-            ForestState forestState, DensityState densityState, SeasonState seasonState,
+            DensityState densityState, SeasonState seasonState,
             WindForceState windForceState, RainfallState rainfallState, HumidityState humidityState) {
 
         double burningTimeFactor = 0.0;
 
-        // FOREST STATE
-        switch (forestState) {
-            case Coniferous:
-                burningTimeFactor += SLOW_SPREAD;
-                break;
-            case Deciduous:
-                burningTimeFactor += FAST_SPREAD;
-                break;
-            case Mixed:
-                burningTimeFactor += MEDIUM_SPREAD;
-                break;
-            default:
-                burningTimeFactor += 0.0;
-                break;
-        }
         // DENSINITY STATE
         switch (densityState) {
             case Poorly:

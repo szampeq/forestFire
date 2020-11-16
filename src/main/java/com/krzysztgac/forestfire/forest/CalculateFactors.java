@@ -105,16 +105,16 @@ public abstract class CalculateFactors {
     // HUMIDITY STATE
         switch (humidityState) {
             case LowHumidity:
-                spreadingFireFactor = VERY_HIGH_TRANSITION;
+                spreadingFireFactor += VERY_HIGH_TRANSITION;
                 break;
             case MediumHumidity:
-                spreadingFireFactor = MEDIUM_TRANSITION;
+                spreadingFireFactor += MEDIUM_TRANSITION;
                 break;
             case HighHumidity:
-                spreadingFireFactor = VERY_LOW_TRANSITION;
+                spreadingFireFactor += VERY_LOW_TRANSITION;
                 break;
             default:
-                spreadingFireFactor = 0.0;
+                spreadingFireFactor += 0.0;
                 break;
         }
 

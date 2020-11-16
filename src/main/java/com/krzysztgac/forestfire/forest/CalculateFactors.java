@@ -125,6 +125,102 @@ public abstract class CalculateFactors {
             ForestState forestState, DensityState densityState, SeasonState seasonState,
             WindForceState windForceState, RainfallState rainfallState, HumidityState humidityState) {
 
-        return 0.0;
+        double burningTimeFactor = 0.0;
+
+        // FOREST STATE
+        switch (forestState) {
+            case Coniferous:
+                burningTimeFactor += SLOW_SPREAD;
+                break;
+            case Deciduous:
+                burningTimeFactor += FAST_SPREAD;
+                break;
+            case Mixed:
+                burningTimeFactor += MEDIUM_SPREAD;
+                break;
+            default:
+                burningTimeFactor += 0.0;
+                break;
+        }
+        // DENSINITY STATE
+        switch (densityState) {
+            case Poorly:
+                burningTimeFactor += SLOW_SPREAD;
+                break;
+            case Medium:
+                burningTimeFactor += MEDIUM_SPREAD;
+                break;
+            case Strongly:
+                burningTimeFactor += FAST_SPREAD;
+                break;
+            default:
+                burningTimeFactor += 0.0;
+                break;
+        }
+        // SEASON STATE
+        switch (seasonState) {
+            case Spring:
+                burningTimeFactor += SLOW_SPREAD;
+                break;
+            case Summer:
+                burningTimeFactor += VERY_FAST_SPREAD;
+                break;
+            case Autumn:
+                burningTimeFactor += FAST_SPREAD;
+                break;
+            case Winter:
+                burningTimeFactor += VERY_SLOW_SPREAD;
+                break;
+            default:
+                burningTimeFactor += 0.0;
+                break;
+        }
+// WIND FORCE STATE
+        switch (windForceState) {
+            case GentleWind:
+                burningTimeFactor += SLOW_SPREAD;
+                break;
+            case MediumWind:
+                burningTimeFactor += MEDIUM_SPREAD;
+                break;
+            case StrongWind:
+                burningTimeFactor += FAST_SPREAD;
+                break;
+            default:
+                burningTimeFactor += 0.0;
+                break;
+        }
+// RAINFALL STATE
+        switch (rainfallState) {
+            case Drizzle:
+                burningTimeFactor += FAST_SPREAD;
+                break;
+            case MediumRain:
+                burningTimeFactor += MEDIUM_SPREAD;
+                break;
+            case HeavyRain:
+                burningTimeFactor += VERY_SLOW_SPREAD;
+                break;
+            default:
+                burningTimeFactor += VERY_FAST_SPREAD;
+                break;
+        }
+        // HUMIDITY STATE
+        switch (humidityState) {
+            case LowHumidity:
+                burningTimeFactor += VERY_FAST_SPREAD;
+                break;
+            case MediumHumidity:
+                burningTimeFactor += MEDIUM_SPREAD;
+                break;
+            case HighHumidity:
+                burningTimeFactor += VERY_SLOW_SPREAD;
+                break;
+            default:
+                burningTimeFactor += 0.0;
+                break;
+        }
+
+        return burningTimeFactor/(double)NUMBER_OF_STATES;
     }
 }

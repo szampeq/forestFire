@@ -165,7 +165,6 @@ public class Main extends JFrame {
         // Button Panel - Start a Fire
         fireButtonPanel.setLayout(new FlowLayout());
         Button startButton = new Button("Start/Stop Fire!", fireButtonPanel);
-        Button setFireButton = new Button("Set Random Fire", fireButtonPanel);
         Button sendFireman = new Button("Send Fireman", fireButtonPanel);
         Button sendHelicopter = new Button("Send Helicopter", fireButtonPanel);
 

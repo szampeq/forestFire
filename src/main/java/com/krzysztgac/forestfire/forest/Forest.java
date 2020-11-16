@@ -115,7 +115,7 @@ public class Forest {
 
     public void cellNeighborhood() {
 
-
+        // == Structure to compare and update matrix safely ==
         Cell[][] newCells = new Cell[matrix.length][matrix[0].length];
         for (int i = 0; i < newCells.length; i++)
             for (int j = 0; j < newCells[0].length; j++) {
@@ -123,9 +123,11 @@ public class Forest {
                 newCells[i][j].setBurningTime(matrix[i][j].getBurningTime());
             }
 
+        // == Cell loop, step by step ==
         for (int i = 0; i < matrix.length; i++)
             for (int j = 0; j < matrix[0].length; j++) {
 
+                // counting burning neighbors to calclulate spread fire chance
                 int burningNeighbors = 0;
 
                 // ======= neighbors loop =======
@@ -135,6 +137,7 @@ public class Forest {
                         int x = i + m;
                         int y = j + n;
 
+                        // exceptions
                         if (x == i && y == j) continue;
                         if (x < 0 || y < 0) continue;
                         if (x > matrix.length - 1 || y > matrix[0].length - 1) continue;
@@ -142,17 +145,14 @@ public class Forest {
                         if (matrix[x][y].getState().equals(CellState.BurningTree))
                             burningNeighbors++;
                     }
-                // ========= end of neighbors loop ========
 
-                double chanceOfSpread;
-                    if (burningNeighbors == 0)
-                        chanceOfSpread = 0;
-                    else
-                        chanceOfSpread = 0.5 * (spreadingFireFactor + burningNeighbors/8.0);
+                // checking neighbors
+                double chanceOfSpread = burningNeighbors == 0 ? 0 : 0.5 * (spreadingFireFactor + burningNeighbors/8.0);
 
+                // set a fire
                 if (matrix[i][j].isFlammable() && chanceOfSpread > 0) {
-                    double x = ThreadLocalRandom.current().nextDouble(0, 1);
-                    if (x < chanceOfSpread) {
+                    double currentChance = ThreadLocalRandom.current().nextDouble(0, 1);
+                    if (currentChance < chanceOfSpread) {
                         newCells[i][j].setState(CellState.BurningTree);
                         newCells[i][j].setBurningTime(newCells[i][j].burningTime += burningTimeFactor);
                     } else

@@ -6,10 +6,10 @@ public abstract class CalculateFactors {
 
     private static final int NUMBER_OF_STATES = 5;
 
-    private static final double VERY_LOW_TRANSITION = 0.10;
-    private static final double LOW_TRANSITION = 0.20;
+    private static final double VERY_LOW_TRANSITION = 0.0;
+    private static final double LOW_TRANSITION = 0.25;
     private static final double MEDIUM_TRANSITION = 0.50;
-    private static final double HIGH_TRANSISTION = 0.80;
+    private static final double HIGH_TRANSITION = 0.75;
     private static final double VERY_HIGH_TRANSITION = 1.0;
 
     private static final int VERY_SLOW_SPREAD = 5;
@@ -45,10 +45,10 @@ public abstract class CalculateFactors {
                 spreadingFireFactor += LOW_TRANSITION;
                 break;
             case Summer:
-                spreadingFireFactor += HIGH_TRANSISTION;
+                spreadingFireFactor += VERY_HIGH_TRANSITION;
                 break;
             case Autumn:
-                spreadingFireFactor += VERY_HIGH_TRANSITION;
+                spreadingFireFactor += HIGH_TRANSITION;
                 break;
             case Winter:
                 spreadingFireFactor += VERY_LOW_TRANSITION;
@@ -75,7 +75,7 @@ public abstract class CalculateFactors {
 // RAINFALL STATE
         switch (rainfallState) {
             case Drizzle:
-                spreadingFireFactor += HIGH_TRANSISTION;
+                spreadingFireFactor += HIGH_TRANSITION;
                 break;
             case MediumRain:
                 spreadingFireFactor += MEDIUM_TRANSITION;

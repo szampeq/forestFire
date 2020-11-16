@@ -4,7 +4,7 @@ import com.krzysztgac.forestfire.states.*;
 
 public abstract class CalculateFactors {
 
-    private static final int NUMBER_OF_STATES = 7;
+    private static final int NUMBER_OF_STATES = 6;
 
     private static final double VERY_LOW_TRANSITION = 0.15;
     private static final double LOW_TRANSITION = 0.30;
@@ -19,7 +19,7 @@ public abstract class CalculateFactors {
     private static final int VERY_FAST_SPREAD = -5;
 
     static double calculateSpreadingFireFactor(
-            ForestState forestState, DensityState densityState, SeasonState seasonState, WindState windState,
+            ForestState forestState, DensityState densityState, SeasonState seasonState,
             WindForceState windForceState, RainfallState rainfallState, HumidityState humidityState) {
 
         double spreadingFireFactor = 0.0;
@@ -121,7 +121,7 @@ public abstract class CalculateFactors {
         return spreadingFireFactor/(double)NUMBER_OF_STATES;
     }
 
-    static double burningTimeFactor(
+    static double calculateBurningTimeFactor(
             ForestState forestState, DensityState densityState, SeasonState seasonState,
             WindForceState windForceState, RainfallState rainfallState, HumidityState humidityState) {
 

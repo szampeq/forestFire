@@ -4,6 +4,9 @@ import com.krzysztgac.forestfire.states.*;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+import static com.krzysztgac.forestfire.forest.CalculateFactors.calculateBurningTimeFactor;
+import static com.krzysztgac.forestfire.forest.CalculateFactors.calculateSpreadingFireFactor;
+
 public class Forest {
     public Cell[][] matrix;
     double spreadingFireFactor;
@@ -24,14 +27,6 @@ public class Forest {
         return seasonState;
     }
 
-    public double getSpreadingFireFactor() {
-        return spreadingFireFactor;
-    }
-
-    public void setSpreadingFireFactor(double spreadingFireFactor) {
-        this.spreadingFireFactor = spreadingFireFactor;
-    }
-
     public void setupForest(ForestState forestState, DensityState densityState, SeasonState seasonState,
     WindState windState, WindForceState windForceState, RainfallState rainfallState, HumidityState humidityState) {
 
@@ -45,6 +40,14 @@ public class Forest {
 
         plantTrees();
 
+        spreadingFireFactor = calculateSpreadingFireFactor(forestState, densityState, seasonState, windForceState,
+                rainfallState, humidityState);
+
+        burningTimeFactor = calculateBurningTimeFactor(forestState, densityState, seasonState, windForceState,
+                rainfallState, humidityState);
+
+        System.out.println(spreadingFireFactor);
+        System.out.println(burningTimeFactor);
     }
 
     public CellState randomTree() {
@@ -105,7 +108,7 @@ public class Forest {
 
                 if (!matrix[x+i][y+j].getState().equals(CellState.Lake)) {
                     matrix[x + i][y + j].setState(CellState.BurningTree);
-                    matrix[x + i][y + j].setBurningTime(10);
+                    matrix[x + i][y + j].setBurningTime(burningTimeFactor);
                 }
             }
     }
@@ -116,8 +119,8 @@ public class Forest {
 
         for (int i = 0; i < matrix.length; i++)
             for (int j = 0; j < matrix[0].length; j++) {
-                newCells[i][j] = new Cell(CellState.None);
-                newCells[i][j].setBurningTime(matrix[i][j].getBurningTime() - 1);
+                newCells[i][j] = new Cell(matrix[i][j].getState());
+                newCells[i][j].setBurningTime(matrix[i][j].getBurningTime()+burningTimeFactor);
             }
 
 
@@ -140,14 +143,25 @@ public class Forest {
                             burningNeighbors++;
                     }
 
-                if (burningNeighbors > 0 && !matrix[i][j].getState().equals(CellState.Lake) &&
-                        !matrix[i][j].getState().equals(CellState.BurnedTree) && !matrix[i][j].getState().equals(CellState.BurningTree)) {
-                    newCells[i][j].setState(CellState.BurningTree);
-                    newCells[i][j].setBurningTime(newCells[i][j].getBurningTime()+10);
+                double chanceOfSpread;
+                    if (burningNeighbors == 0)
+                        chanceOfSpread = 0;
+                    else
+                        chanceOfSpread = 0.5 * (spreadingFireFactor + burningNeighbors/8.0);
+
+                if (matrix[i][j].isFlammable() && chanceOfSpread > 0) {
+                    double x = ThreadLocalRandom.current().nextDouble(0, 1);
+                    if (x < chanceOfSpread) {
+                        newCells[i][j].setState(CellState.BurningTree);
+                        //newCells[i][j].setBurningTime(burningTimeFactor);
+                    }
                 }
                 else
                     newCells[i][j] = matrix[i][j];
-                newCells[i][j].isBurned();
+
+
+                //newCells[i][j].isBurned();
+
             }
         matrix = newCells;
     }

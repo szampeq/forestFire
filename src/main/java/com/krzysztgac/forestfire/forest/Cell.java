@@ -2,6 +2,7 @@ package com.krzysztgac.forestfire.forest;
 
 import com.krzysztgac.forestfire.states.CellState;
 import com.krzysztgac.forestfire.states.ForestState;
+import com.krzysztgac.forestfire.states.SeasonState;
 
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -82,6 +83,9 @@ public class Cell {
     }
 
     boolean isFlammable() {
-        return state.equals(CellState.Grass) || state.equals(CellState.LeafyTree) || state.equals(CellState.ConiferTree);
+        if (!forestData.getSeasonState().equals(SeasonState.Winter))
+            return state.equals(CellState.Grass) || state.equals(CellState.LeafyTree) || state.equals(CellState.ConiferTree);
+        else
+            return state.equals(CellState.LeafyTree) || state.equals(CellState.ConiferTree);
     }
 }

@@ -27,6 +27,9 @@ public class Forest {
     public Forest() {
     }
 
+    public ForestState getForestState() {
+        return forestState;
+    }
     public SeasonState getSeasonState() {
         return seasonState;
     }

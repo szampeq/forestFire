@@ -1,6 +1,11 @@
 package com.krzysztgac.forestfire.forest;
 
 import com.krzysztgac.forestfire.states.CellState;
+import com.krzysztgac.forestfire.states.ForestState;
+
+import java.util.concurrent.ThreadLocalRandom;
+
+import static com.krzysztgac.forestfire.Main.forestData;
 
 public class Cell {
 
@@ -35,6 +40,37 @@ public class Cell {
         }
         else if (state.equals(CellState.BurningTree) && burningTime <= 0)
             state = CellState.BurnedTree;
+        else if (state.equals(CellState.BurnedTree) && burningTime > -1000)
+            burningTime--;
+        else if (state.equals(CellState.BurnedTree) && burningTime <= -1000) {
+            plantTree();
+        }
+    }
+
+    void plantTree() {
+        int random = ThreadLocalRandom.current().nextInt(0, 10);
+        switch (forestData.getForestState()) {
+            case Coniferous:
+                if (random == 0)
+                    setState(CellState.ConiferTree);
+                else
+                    setState(CellState.Grass);
+                break;
+            case Deciduous:
+                if (random == 0)
+                    setState(CellState.LeafyTree);
+                else
+                    setState(CellState.Grass);
+                break;
+            default:
+                if (random == 0)
+                    setState(CellState.LeafyTree);
+                else if (random == 1)
+                    setState(CellState.ConiferTree);
+                else
+                    setState(CellState.Grass);
+                break;
+        }
     }
 
     public void setBurningTime(double burningTime) {

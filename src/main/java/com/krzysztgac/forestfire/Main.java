@@ -29,7 +29,7 @@ public class Main extends JFrame {
     private final JPanel fireButtonPanel;
     static BinaryMapLoader bml;
     static JForestPanel jForestPanel;
-    static Forest forestData;
+    public static Forest forestData;
     static Map map;
 
     public Main(String title){

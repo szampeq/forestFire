@@ -64,8 +64,8 @@ public class JForestPanel extends JPanel {
 
         if (forestData.getSeasonState() != null) {
             if (forestData.getSeasonState().equals(SeasonState.Spring)) {
-                grassColor = new Color(16, 213, 0);
-                leafyColor = new Color(157, 244, 11);
+                grassColor = new Color(180, 213, 0);
+                leafyColor = new Color(16, 244, 11);
             } else if (forestData.getSeasonState().equals(SeasonState.Summer)) {
                 grassColor = new Color(16, 213, 0);
                 leafyColor = new Color(0, 128, 0);

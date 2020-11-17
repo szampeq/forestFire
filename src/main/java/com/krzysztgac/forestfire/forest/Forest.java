@@ -6,12 +6,14 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import static com.krzysztgac.forestfire.forest.CalculateFactors.calculateBurningTimeFactor;
 import static com.krzysztgac.forestfire.forest.CalculateFactors.calculateSpreadingFireFactor;
+import static com.krzysztgac.forestfire.forest.WindMatrix.windForce;
 import static com.krzysztgac.forestfire.forest.WindMatrix.windMatrix;
 
 public class Forest {
     public Cell[][] matrix;
     double spreadingFireFactor;
     double burningTimeFactor;
+    double windForce;
     int[][] windDirection;
 
     ForestState forestState;
@@ -49,6 +51,8 @@ public class Forest {
                 rainfallState, humidityState);
 
         windDirection = windMatrix(windState);
+
+        windForce = windForce(windForceState);
 
         System.out.println(spreadingFireFactor);
         System.out.println(burningTimeFactor);
@@ -167,7 +171,8 @@ public class Forest {
 
                 newCells[i][j].isBurned();
             }
-        newCells = windEffect(newCells);
+        if (!windForceState.equals(WindForceState.Windless))
+            newCells = windEffect(newCells);
         matrix = newCells;
     }
 
@@ -200,8 +205,11 @@ public class Forest {
                 if (x < 0 || y < 0) continue;
                 if (x > matrix.length - 1 || y > matrix[0].length - 1) continue;
 
-                if (cells[i][j].getState().equals(CellState.BurningTree)) {
+                double chance = ThreadLocalRandom.current().nextDouble(0, 1);
+
+                if (chance < windForce && cells[i][j].getState().equals(CellState.BurningTree)) {
                     newCells[x][y].setState(CellState.BurningTree);
+                    newCells[x][y].setBurningTime(newCells[x][y].burningTime += burningTimeFactor);
                 } else
                     newCells[x][y] = cells[x][y];
             }

@@ -1,5 +1,6 @@
 package com.krzysztgac.forestfire.forest;
 
+import com.krzysztgac.forestfire.states.WindForceState;
 import com.krzysztgac.forestfire.states.WindState;
 
 public abstract class WindMatrix {
@@ -70,6 +71,19 @@ public abstract class WindMatrix {
                 return West;
             default:
                 return Windless;
+        }
+    }
+
+    static double windForce(WindForceState windForceState) {
+        switch (windForceState) {
+            case GentleWind:
+                return 0.2;
+            case MediumWind:
+                return 0.5;
+            case StrongWind:
+                return 0.8;
+            default:
+                return 0.0;
         }
     }
 

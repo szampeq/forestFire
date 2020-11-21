@@ -111,17 +111,21 @@ public class Forest {
 
     public void setFire(int x, int y) {
 
-        for (int i = -3; i < 3; i++)
-            for (int j = -3; j < 3; j++) {
+        try {
+            for (int i = -3; i < 3; i++)
+                for (int j = -3; j < 3; j++) {
 
-                if (x + i < 0 || y + i < 0) continue;
-                if (x + i > matrix.length - 1 || y + j > matrix[0].length - 1) continue;
+                    if (x + i < 0 || y + i < 0) continue;
+                    if (x + i > matrix.length - 1 || y + j > matrix[0].length - 1) continue;
 
-                if (!matrix[x+i][y+j].getState().equals(CellState.Lake)) {
-                    matrix[x + i][y + j].setState(CellState.BurningTree);
-                    matrix[x + i][y + j].setBurningTime(15 + burningTimeFactor);
+                    if (!matrix[x + i][y + j].getState().equals(CellState.Lake)) {
+                        matrix[x + i][y + j].setState(CellState.BurningTree);
+                        matrix[x + i][y + j].setBurningTime(15 + burningTimeFactor);
+                    }
                 }
-            }
+        }catch (IndexOutOfBoundsException ignored) {
+
+        }
     }
 
     public void cellNeighborhood() {
@@ -179,8 +183,6 @@ public class Forest {
         matrix = newCells;
     }
 
-
-
     Cell[][] windEffect(Cell[][] cells) {
 
         Cell[][] newCells = new Cell[cells.length][cells[0].length];
@@ -218,4 +220,5 @@ public class Forest {
             }
         return newCells;
     }
+
 }

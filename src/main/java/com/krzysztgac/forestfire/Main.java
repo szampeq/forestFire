@@ -20,6 +20,7 @@ import com.krzysztgac.forestfire.data.BinaryMapLoader;
 import com.krzysztgac.forestfire.data.JForestPanel;
 import com.krzysztgac.forestfire.data.Map;
 import com.krzysztgac.forestfire.forest.Forest;
+import com.krzysztgac.forestfire.forest.Helicopter;
 import com.krzysztgac.forestfire.states.*;
 import com.krzysztgac.forestfire.tools.Button;
 
@@ -27,6 +28,7 @@ public class Main extends JFrame {
 
     private final JPanel buttonPanel;
     private final JPanel fireButtonPanel;
+    public static JProgressBar waterAmountBar;
     static BinaryMapLoader bml;
     static JForestPanel jForestPanel;
     public static Forest forestData;
@@ -165,9 +167,12 @@ public class Main extends JFrame {
         // Button Panel - Start a Fire
         fireButtonPanel.setLayout(new FlowLayout());
         Button startButton = new Button("Start/Stop Fire!", fireButtonPanel);
-        Button sendFireman = new Button("Send Fireman", fireButtonPanel);
-        Button sendHelicopter = new Button("Send Helicopter", fireButtonPanel);
-
+        JLabel waterHeli = new JLabel("Helicopter's Water: ");
+        fireButtonPanel.add(waterHeli);
+        waterAmountBar = new JProgressBar();
+        waterAmountBar.setValue((int) Helicopter.waterAmount * 20);
+        waterAmountBar.setStringPainted(true);
+        fireButtonPanel.add(waterAmountBar);
         AtomicBoolean isGameStarted = new AtomicBoolean(false);
 
         startButton.button.addActionListener(e -> {
@@ -199,7 +204,19 @@ public class Main extends JFrame {
                 int y = e.getY() - windowYCorrection;
 
                 if (isBoardCreated.get())
-                    forestData.setFire(x, y);
+                    if (SwingUtilities.isRightMouseButton(e)) {
+                        Runnable runnable = () -> {
+                            try {
+                                Helicopter.dropWater(x, y); // helicopter
+                            } catch (InterruptedException interruptedException) {
+                                interruptedException.printStackTrace();
+                            }
+                        };
+                        Thread t = new Thread(runnable);
+                        t.start();
+                    }
+                    else if (SwingUtilities.isLeftMouseButton(e))
+                        forestData.setFire(x, y); // set fire
             }
 
         });
